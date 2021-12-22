@@ -7,59 +7,138 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Rock Paper Scissors</h1>
+        <div>
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+        </div>
+
+        <div>
+            <p>Your Score is : <span id="playerScore">0</span></p>
+            <p>The computer score is : <span id="computerScore">0</span></p>
+            <p>Number of ties is :  <span id="tieScore">0</span></p>
+        </div>
+
     <script>
-        const textArray = ["rock", "paper", "scissors"];
-        let score = 0;
+        // See if you can use these instead of string literals
+        // const ROCK = "rock";
+        // const PAPER = "paper";
+        // const SCISSORS = "scissors";
         
+        let playerScore = document.getElementById("playerScore");
+        let computerScore = document.getElementById('computerScore');
+        let tieScore = document.getElementById('tieScore');
+        let playerTracker = 0;
+        let computerTracker = 0;
+        let tieTracker = 0;
+        const rockButton = document.getElementById("rock");
+        const paperButton = document.getElementById("paper");
+        const scissorsButton = document.getElementById("scissors");
+
+
         function computerPlay() {
+            const textArray = ["rock", "paper", "scissors"];
             return textArray[Math.floor(Math.random()*textArray.length)];
               
         }
        
-        
-        function playRound() {
-            let computerSelection = computerPlay();
-            let playerSelection = prompt("Please enter rock, paper, or scissors").toLowerCase();
-            if (playerSelection == computerSelection) {
-                console.log(`It's a tie, you both chose ${playerSelection}`);
-            } else if (playerSelection == "rock" && computerSelection == "paper") {
-                console.log("You lose, rock is covered by paper.")
-            } else if (playerSelection == "rock" && computerSelection == "scissors") {
-                console.log("You win, rock beats scissors.")
-                score++;
-            } else if (playerSelection == "paper" && computerSelection == "rock") {
-                console.log("You win, paper beats rock.")
-                score++;
-            } else if (playerSelection == "paper" && computerSelection == "scissors") {
-                console.log("You lose, paper is cut by scissors.")
-            } else if (playerSelection == "scissors" && computerSelection == "rock") {
-                console.log("You lose, scissors are beat by rock.")
-            } else if (playerSelection == "scissors" && computerSelection == "paper") {
-                console.log("You win, scissors cut paper.")
-                score++;
-            } else {
-                console.log("Something went wrong, please enter rock, paper, or scissors");
-                playRound();
-            }
-        }
-
-        function game() {
-            for (let i = 1; i <= 5; i++) {
-                playRound();
-            }
-            if (score === 0) {
-                console.log("I cant believe it, you tied all 5 times")
-            }
-            else if (score < 3) {
-                console.log(`you lost with a score of ${score} out of 5`);
-            } else {
-                console.log(`you won, with a score of ${score} out of 5`);
-            }
-            score = 0;
-
-        }
+        function clickListener(e) {
+            const playerSelection = e.target.id;
+            const computerSelection = computerPlay();
+            playRound(playerSelection, computerSelection);
             
-       game();
+        }
+
+        rockButton.addEventListener("click", clickListener);
+        paperButton.addEventListener("click", clickListener);
+        scissorsButton.addEventListener("click", clickListener);
+        
+
+        function resetGameCheck() {
+            if (playerTracker === 5 ) {
+                playerScore.innerHTML = "5";
+                alert("Congratulations! You Won!")
+                playerTracker=0;
+            computerTracker=0;
+            tieTracker=0;
+            playerScore.textContent = " " + playerTracker;
+            computerScore.textContent = " " + computerTracker;
+            tieScore.textContent = "" + tieTracker;  
+                
+            } else if (computerTracker === 5) {
+                computerScore.textContent = "5";
+                alert("Sorry! You lost!")
+                playerTracker=0;
+            computerTracker=0;
+            tieTracker=0;
+            playerScore.textContent = " " + playerTracker;
+            computerScore.textContent = " " + computerTracker;
+            tieScore.textContent = "" + tieTracker;  
+                
+            } else {
+                return;
+            
+            
+            
+        }
+    }
+        
+        
+        
+        function playRound(playerSelection, computerSelection) {
+           
+
+
+            if (playerSelection == computerSelection) {
+                tieTracker++;
+                tieScore.innerHTML = "" + tieTracker; 
+                resetGameCheck();              
+            } else if (playerSelection == "rock" && computerSelection == "paper") {
+                ++computerTracker;
+                computerScore.textContent = " " + computerTracker;
+                resetGameCheck();             
+            } else if (playerSelection == "rock" && computerSelection == "scissors") {
+                ++playerTracker;
+                playerScore.innerHTML = " " + playerTracker;
+                resetGameCheck();
+            } else if (playerSelection == "paper" && computerSelection == "rock") {
+                ++playerTracker;
+                playerScore.innerHTML = " " + playerTracker;
+                resetGameCheck();
+            } else if (playerSelection == "paper" && computerSelection == "scissors") {
+                ++computerTracker;
+                computerScore.innerHTML = " " + computerTracker;
+                resetGameCheck();
+            } else if (playerSelection == "scissors" && computerSelection == "rock") {
+                ++computerTracker;
+                computerScore.innerHTML = " " + computerTracker;
+                resetGameCheck();
+            } else { 
+                //(playerSelection == "scissors" && computerSelection == "paper") {
+                ++playerTracker;
+                playerScore.innerHTML = " " + playerTracker;
+                resetGameCheck();
+            } 
+        }
+    
+    //     function game() {
+    //         for (let i = 1; i <= 5; i++) {
+    //             playRound();
+    //         }
+    //         if (score === 0) {
+    //             console.log("I cant believe it, you tied all 5 times")
+    //         }
+    //         else if (score < 3) {
+    //             console.log(`you lost with a score of ${score} out of 5`);
+    //         } else {
+    //             console.log(`you won, with a score of ${score} out of 5`);
+    //         }
+    //         score = 0;
+
+    //     }
+            
+    //    game();
 
 
     
